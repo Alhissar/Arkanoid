@@ -34,7 +34,8 @@ export class Vel extends Vec2 {
    * @param {number} a en radians
    */
   set angle(a) {
-    this.x = Math.cos(a) * this.len;
-    this.y = Math.sin(a) * this.len;
+    const len = this.len;
+    this.x = Math.cos(a) * len;
+    this.y = Math.sin(a) * len;
   }
 }

@@ -19,7 +19,7 @@ export default class Brick extends Entity {
     this.anims = createAnim(1, this.states, 1, 0);
     // this.anims = { n: [[0, 0]], ...};
     this.createSprites(this.sprites, this.states, this.anims);
-    // this.fps = 25;
+    this.fps = 60;
     this.name = 'brick';
   }
 

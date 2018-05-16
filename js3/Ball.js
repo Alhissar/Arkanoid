@@ -15,6 +15,7 @@ export default class Ball extends Entity {
     this.id = id;
     this.dead = true;
     this.onFire = false;
+    this.speed = 1;
     this.stuck = true;
     this.oldVel = {x: 150, y: -320};
     this.stickOffset = 0;
@@ -34,6 +35,22 @@ export default class Ball extends Entity {
       x: (this.left + this.right) / 2,
       y: (this.top + this.bottom) / 2,
     };
+  }
+
+  randomAngle() {
+    let signX = Math.sign(this.vel.x);
+    let signY = Math.sign(this.vel.y);
+    const randX = [150, 200, 300, 350, 400, 450];
+    const randY = [300, 320, 340, 350, 360, 370];
+    const index = Math.random() * 6 | 0;
+    this.vel.x = randX[index] * signX;
+    // this.vel.x *= (Math.random() * 2 - 1 < 0) ? -1 : 1;
+    // if (signY === 0) signY = -1;
+    this.vel.y = randY[index] * signY;
+    // this.vel.y = (Math.random() > 0.8) ? 300 : -300;
+    this.speed *= 1.04;
+    this.vel.y *= this.speed;
+
   }
 
   saveVel() {

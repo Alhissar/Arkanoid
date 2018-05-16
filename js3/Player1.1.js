@@ -76,24 +76,26 @@ export default class Player extends Entity {
       if (entity.name === "ball") {
         if (entity.vel.y < 0) return;
         
-        // entity.pos.y = this.top - entity.size.y;
         entity.stickOffset = entity.center.x - this.center.x;
         
         // on stocke vel.len avant les calculs d'angle
         const len =  entity.vel.len;
-        // il faut calculer un angle et modifier entity.vel en consequence
-        // de PI/8 à 3PI/8 droite
+        // calcul de l'angle pour entity.vel
         const angle = Math.abs(entity.stickOffset) * 
                       (-Math.PI / 240) +
                       3/8  * Math.PI;
         entity.vel.angle = angle;
         // on inverse vel.x si offset négatif
         if (entity.stickOffset < 0) entity.vel.x = -entity.vel.x;
-        // on inverse vel.y (vel.y augmente quand la bille descend)
+        // f(y) = accel*offset * y + 300?
+        const finalVelY = (1.16 * Math.abs(entity.stickOffset) + 300) *
+                          entity.speed;
+        const ratio = finalVelY / entity.vel.y;
+        entity.vel.x *= ratio;
+        entity.vel.y *= ratio;
+        // on inverse vel.y (vel.y diminue quand la bille monte)
         entity.vel.y = -entity.vel.y;
-        // on récupère vel.len d'avant les calculs
-        entity.vel.len = len;
-        
+
         if (this.sticky) {
           entity.pos.y = this.top - entity.size.y;
           this.normalizeOffset(entity);
@@ -139,7 +141,6 @@ export default class Player extends Entity {
           break;
           
           default:
-          // this.size.x = 80;
         }
 
         this.id = this.getId();
@@ -210,8 +211,6 @@ export default class Player extends Entity {
     // balls.fireOff();
     balls.all[0].pos.set(this.center.x - 5, 600);
   }
-
-  
 
   /**
    * Mise à jour du joueur et de l'offset de ball

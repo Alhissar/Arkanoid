@@ -48,7 +48,7 @@ export default class Bricks {
           if (this.brick.id.length > 1) {
             const state = this.brick.id[0];
             const acc = parseFloat(this.brick.id.slice(1)) + dt;
-            const frame = Math.floor(acc * 25);
+            const frame = Math.floor(acc * this.brick.fps);
             this.level[j][i] = state + acc;
             this.brick.id = state + frame;
 
@@ -105,7 +105,8 @@ export default class Bricks {
           // animation de la brique
           this.level[brickGrid.row][brickGrid.col] = 'G0';
           if (entity.name === 'ball') {
-            // on augmente de 3% la vitesse
+            // on augmente de 2% la vitesse
+            entity.speed *= 1.002;
             const len = entity.vel.len * 1.002;
             // et 1% de chance de modifier le vecteur
             if (Math.random() < 0.01) {

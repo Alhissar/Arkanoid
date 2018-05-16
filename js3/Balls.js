@@ -27,10 +27,10 @@ export default class Balls {
     });
   }
 
-  fireOff() {
+  fireOff(color = 'ball0') {
     this.all.forEach((ball, index) => {
       ball.onFire = false;
-      ball.id = 'ball0';
+      ball.id = color;
     });
   }
 
@@ -65,31 +65,29 @@ export default class Balls {
     // on stocke la derniere bille en vie
     this.all.forEach( (ball, index) => {
       if (!ball.dead) {
+        ball.id = 'ball2';
         ballAlive = ball;
         ballAliveIndex = index;
       } else {
         ball.pos.x = ballAlive.pos.x;
         ball.pos.y = ballAlive.pos.y;
-        const speed = 150 + (Math.random() * 150);
-        ball.vel.y = Math.random() < 0.5 ? -320 : 320;
-        ball.vel.x = (Math.random() < 0.5) ? -speed : speed;
+        ball.vel.x = ballAlive.vel.x;
+        ball.vel.y = ballAlive.vel.y;
+        // nouvelle methode
+        ball.randomAngle();
         ball.dead = false;
-        ball.vel.len = ballAlive.vel.len;
-        
       }
-      this.fireOff();
     });  
+    this.fireOff();
     this.run();
   }
 
   reset() {
-
     if (this.alive > 0) {
       this.all.length = 0;
     }
     this.all.push(new Ball(this.tiles, 'ball0'));
     this.all[0].dead = false;
-
   }
 
   run() {

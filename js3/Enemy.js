@@ -24,7 +24,7 @@ export default class Enemy extends Entity{
     ];
     this.dyingAnims = createAnim(20, this.dyingStates, 0, 1);
     this.createSprites(this.dyingSprites, this.dyingStates, this.dyingAnims);
-    // this.fps = 25;
+    this.fps = 30;
     this.explOffset = {x: 10, y: 10};
     this.name = 'enemy';
     this.id = id;
@@ -33,7 +33,7 @@ export default class Enemy extends Entity{
   }
 
   collides(entities) {
-    const rand = [-400, -350, -300, 300 , 350, 400];
+    // const rand = [150, 200, 300 , 350, 400, 450];
     const collisions = [];
     entities.all.forEach(entity => {
       if (!this.intersects(entity) ||
@@ -42,15 +42,13 @@ export default class Enemy extends Entity{
           this.dying) return ;
       
       const collision = {};
-      // this.dead = true;
       this.dying = true;
       this.acc = 0;
       this.score += 10;
       if (entity.name === 'ball') {
-        const len = entity.vel.len;
-        entity.vel.x = rand[Math.random() * 6 |0];
-        entity.vel.y = (Math.random() > 0.8) ? 320 : -320;
-        entity.vel.len = len * 1.04;
+        entity.randomAngle();
+        entity.vel.x *= (Math.random() * 2 - 1 < 0) ? -1 : 1;
+        entity.vel.y *= (Math.random() * 2 - 1 < 0) ? -1 : 1;
       }
       if (entity.name === 'bullet') entity.dead = true;
       collision.name = entity.name;
