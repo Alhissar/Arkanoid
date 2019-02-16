@@ -81,7 +81,7 @@ export default class Entity {
       this.spriteToDraw = this.sprites;
     }
     
-    // codage en dur du framerate de l'anim (1/25 ou acc*25)
+    // framerate de l'anim (1/this.fps ou acc*fps)
     // calcule le no de d'image pour l'animation du sprite
     this.frameNB = Math.floor((this.acc * this.fps) % this.animToDraw.length);
     const sprite = this.spriteToDraw.tiles.get(`${this.id + this.frameNB}`);

@@ -41,6 +41,19 @@ export default class Balls {
     });
   }
 
+  slow() {
+    const factor = 0.9;
+    this.all.forEach(ball => {
+      ball.speed *= factor;
+      if (ball.vel.x === 0) {
+        ball.oldVel.x *= factor;
+        ball.oldVel.y *= factor;
+      } else {
+        ball.vel.len *= factor;
+      }
+    });
+  }
+
   multi() {
     let ballAlive = null;
     let ballAliveIndex = 0;

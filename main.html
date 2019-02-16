@@ -5,50 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Arkanoid</title>
+  <link rel="stylesheet" href="arkanoid.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:700" rel="stylesheet">
   <script type="module" src="/js3/main.js"></script>
   <style>
-    body {
-      background-color: #55d;
-    }
-
-    @keyframes pulsing {
-      0%  {opacity: 1;}
-      50% {opacity: 0;}
-      100%{opacity: 1;}
-    }
-    /* @keyframes hiding {
-      0%  {opacity: 1;}
-      100% {opacity: 0;}
-    } */
-
-    #paused {
-      color: white;
-      font-size: 40px;
-      text-align: center;
-      padding: 50px;
-      width:  100%;
-      background-color: rgba(255,255,255,0.15);
-      box-sizing: border-box;
-      opacity: 1;
-      visibility: visible;
-      animation: pulsing 1.5s ease-in-out infinite;
-      cursor: pointer;
-    }
-
-    #recap {
-      margin: auto;
-    }
-    #score {
-      color: #fff;
-      font-size: 40px;
-      text-align: left;
-      position: absolute;
-    }
+    
   </style>
 </head>
 
-<body style="display: flex; position: relative; max-width: 800px;">
-  <canvas style="position: absolute; margin: 0 auto;" id="screen" width=800 height=820></canvas>
+<body>
+  <canvas id="screen" width=800 height=820></canvas>
   <div id="score">0</div>
   <div id="recap">
     <p id="paused">LOADING</p>

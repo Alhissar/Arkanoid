@@ -51,15 +51,12 @@ export default class Bricks {
             const frame = Math.floor(acc * this.brick.fps);
             this.level[j][i] = state + acc;
             this.brick.id = state + frame;
-
             if (frame > 8 && state === 'S') {
               this.level[j][i] = this.brick.id = 's';
             }
-
             if (frame > 8 && state === 'G') {
               this.level[j][i] = this.brick.id = 'G';
             }
-            
           }
 
           this.brick.draw(game, dt);
@@ -107,7 +104,7 @@ export default class Bricks {
           if (entity.name === 'ball') {
             // on augmente de 2% la vitesse
             entity.speed *= 1.002;
-            const len = entity.vel.len * 1.002;
+            const len = entity.vel.len; // * 1.002;
             // et 1% de chance de modifier le vecteur
             if (Math.random() < 0.01) {
               entity.vel.x += Math.random() * 50 - 25;
@@ -123,6 +120,7 @@ export default class Bricks {
           } else {
             if (brickId === 'S') {
               collision.sound = 'ballS';
+              entity.speed *= 1.002;
               this.level[brickGrid.row][brickGrid.col] = 'S0';
             } else {
               this.level[brickGrid.row][brickGrid.col] = undefined;
@@ -130,10 +128,11 @@ export default class Bricks {
           }
           break;
         default:
-        // info pour pop bonus
+          collision.sound = 'ball';
+          this.score += 10;
+          // info pour pop bonus
           collision.pos = collided[0].pos;
           this.level[brickGrid.row][brickGrid.col] = undefined;
-          collision.sound = 'ball';
           break;
       }
 

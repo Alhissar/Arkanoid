@@ -1,0 +1,52 @@
+body {
+  background-color: #1e1b23;
+  font-family: "Ubuntu Mono", monospace;
+  display: flex;
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+}
+
+@keyframes pulsing {
+  0%  {opacity: 1;}
+  50% {opacity: 0;}
+  100%{opacity: 1;}
+}
+/* @keyframes hiding {
+  0%  {opacity: 1;}
+  100% {opacity: 0;}
+} */
+
+#paused {
+  margin: 0;
+  color: white;
+  font-size: 7vw;
+  text-align: center;
+  padding: 50px;
+  max-width: 580px;
+  width: 75vw;
+  display: block;
+  background-color: rgba(255,255,255,0.15);
+  box-sizing: border-box;
+  opacity: 1;
+  visibility: visible;
+  animation: pulsing 1.5s ease-in-out infinite;
+  cursor: pointer;
+}
+
+canvas {
+  position: absolute;
+  margin: 0;
+  width: 100%;
+}
+#recap {
+  margin: auto;
+}
+#score {
+  color: #fff;
+  font-size: 52px;
+  text-align: left;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}

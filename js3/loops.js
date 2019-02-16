@@ -38,16 +38,17 @@ export default function loops(game, mode) {
     collisions = collisions.concat(...[enemies.collides(shoot)]);
 
     if (collisions.length !== 0) {
-      collisions.forEach(collision => {
-        play(collision.sound);
-        if (collision.pos) bonus.pop(collision.pos);
-        if (collision.sound === 'multi') {
+      collisions.forEach(({sound, name, pos}) => {
+        play(sound);
+        if (pos) bonus.pop(pos);
+        if (sound === 'multi') {
           balls.multi();
           player.sticky = false;
         }
-        if (collision.name === 'bonus') {
-          if (collision.sound === 'neutron') { balls.fireOn(); }
+        if (name === 'bonus') {
+          if (sound === 'neutron') { balls.fireOn(); }
           else { balls.fireOff(); }
+          if (sound === 'slow') balls.slow();
         }
       });
     }

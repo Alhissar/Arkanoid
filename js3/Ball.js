@@ -40,8 +40,8 @@ export default class Ball extends Entity {
   randomAngle() {
     let signX = Math.sign(this.vel.x);
     let signY = Math.sign(this.vel.y);
-    const randX = [150, 200, 300, 350, 400, 450];
-    const randY = [300, 320, 340, 350, 360, 370];
+    const randX = [150, 200, 250, 300, 350, 400];
+    const randY = [300, 310, 320, 330, 340, 350];
     const index = Math.random() * 6 | 0;
     this.vel.x = randX[index] * signX;
     // this.vel.x *= (Math.random() * 2 - 1 < 0) ? -1 : 1;
@@ -49,7 +49,7 @@ export default class Ball extends Entity {
     this.vel.y = randY[index] * signY;
     // this.vel.y = (Math.random() > 0.8) ? 300 : -300;
     this.speed *= 1.04;
-    this.vel.y *= this.speed;
+    // this.vel.y *= this.speed;
 
   }
 
@@ -91,8 +91,9 @@ export default class Ball extends Entity {
       this.pos.y = 0;
     }
 
-    this.pos.x += this.vel.x * dt;
-    this.pos.y += this.vel.y * dt;
+    // ajouter this.speed dans le calcul ?
+    this.pos.x += this.vel.x * dt * this.speed;
+    this.pos.y += this.vel.y * dt * this.speed;
     return true;
   }
 }

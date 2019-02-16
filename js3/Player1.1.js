@@ -79,7 +79,7 @@ export default class Player extends Entity {
         entity.stickOffset = entity.center.x - this.center.x;
         
         // on stocke vel.len avant les calculs d'angle
-        const len =  entity.vel.len;
+        // const len =  entity.vel.len;
         // calcul de l'angle pour entity.vel
         const angle = Math.abs(entity.stickOffset) * 
                       (-Math.PI / 240) +
@@ -88,8 +88,8 @@ export default class Player extends Entity {
         // on inverse vel.x si offset négatif
         if (entity.stickOffset < 0) entity.vel.x = -entity.vel.x;
         // f(y) = accel*offset * y + 300?
-        const finalVelY = (1.16 * Math.abs(entity.stickOffset) + 300) *
-                          entity.speed;
+        const finalVelY = (1.16 * Math.abs(entity.stickOffset) + 300); // *
+                          //entity.speed;
         const ratio = finalVelY / entity.vel.y;
         entity.vel.x *= ratio;
         entity.vel.y *= ratio;

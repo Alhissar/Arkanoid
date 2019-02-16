@@ -12,7 +12,7 @@ export default class Bonus extends Entity{
     this.states = [
       ['life', 0, 0], ['extended', 0, 1], ['short', 0, 2], 
       ['sticky', 0, 3], ['laser', 0, 4], ['multi', 0, 5],
-      ['neutron', 8, 5],
+      ['neutron', 8, 5], ['slow', 0, 8]
     ];
     this.anims = createAnim(8, this.states, 1, 0);
     // this.anims = {life: [[0, 0], [1, 0], [2,0], [3,0]], ...};
@@ -30,7 +30,8 @@ export default class Bonus extends Entity{
     this.pos.set(x,y);
     this.dead = false;
     this.vel.y = 150;
-    this.id = this.states[1 + Math.random() * 6 | 0][0];
+    // valeur hardcodée 7 : this.states.length - 1
+    this.id = this.states[1 + Math.random() * 7 | 0][0];
     // 2% de chance d'obtenir une vie supp. à la place
     if (Math.random()*100 < 2) this.id = 'life';
     return true;
