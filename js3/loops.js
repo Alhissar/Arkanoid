@@ -2,6 +2,20 @@ import loadLevel from './loaders/loadLevel.js';
 import { draw } from './layers.js';
 import { playAudio } from './sounds.js';
 
+const changeBG = (levelNB) => {
+    // Faire ici le changement de bg (background)
+    const urls = ['Tuile-vert-80p', 'Tuile-sable-80p', 'Tuile-noir-80p', 'Tuile-violet-80p', 'Tuile-boue-80p', 'Tuile-bleu-80p'];
+    const rand = levelNB % urls.length;
+    const $bgStyle = document.getElementById('bg').style;
+    $bgStyle.background = `url("img/${urls[rand]}.jpg") repeat`;
+    $bgStyle.opacity = 1;
+
+}
+
+const lvlStart = (n) => {
+
+}
+
 export default function loops(game, mode) {
   const audio = game.audio;
   const audioContext = game.audioContext;
@@ -61,10 +75,17 @@ export default function loops(game, mode) {
         bonus.dead = true;
       } else if (player.dead) {
         player.loose(balls);
+        timer.pause();
+        timer.update = roundStart;
+        timer.start();
       }
     }
 
-    scores.draw([bonus, bricks, enemies]);
+    // scores.update([bonus, bricks, enemies]);
+    scores.bonus = bonus.score;
+    scores.bricks = bricks.score;
+    scores.enemies = enemies.score;
+    scores.draw();
     const toDraw = [balls, bricks, bonus, player, shoot, enemies];
     draw(toDraw, context, timer, dt);
 
@@ -86,7 +107,24 @@ export default function loops(game, mode) {
 
   const gameOver = function over(dt) {
     // console.log('game over');
-  };
+    if (timer.count === 0) {
+        // 1ere itération de la boucle 'game over'
+
+    }
+    timer.count += dt;
+    if (timer.count > 4) {
+        timer.pause();
+        bricks.levelNB = 1;
+        player.lifes = 3;
+        timer.count = 0;
+        bricks.resetLevels();
+        [bonus, bricks, enemies].forEach(entity => { entity.score = 0 });
+        scores.reset();
+        scores.draw();
+        timer.update = roundStart;
+        timer.start();
+    }
+};
 
   const loose = function loose(dt) {
 
@@ -96,18 +134,49 @@ export default function loops(game, mode) {
 
   };
 
+  const roundStart = (dt) => {
+    const $in = document.getElementById('in').style;
+    const $level = document.getElementById('level');
+    if (timer.count == 0) {
+        play('level');
+        changeBG(bricks.lvlNumber - 1);
+        $in.opacity = 1;
+        $level.innerHTML = `LEVEL ${bricks.lvlNumber}`;
+        timer.ingame = false;
+        player.dead = true;
+        player.appear = false;
+    }
+    timer.count += dt;
+    // on lance le jeu passé 3s
+    if (timer.count > 3) {
+        $in.opacity = 0;
+        player.running = true;
+        bonus.dead = true;
+        enemies.reset();
+        timer.update = ingame;
+        timer.count = 0;
+        console.log(`roundStart() : Round ${bricks.lvlNumber}`);
+        timer.start();
+    }
+    // temporisation pour apparition du player
+    if (timer.count > 1 && timer.count < 1.2 && !player.appear) {
+        player.reset(balls);
+    }
+    draw([bricks, player], context, timer, dt);
+  }
+
   const start = function start(dt) {
     if (timer.count === 0) {
-      document.getElementById('paused').innerText = "CLICK TO PLAY";
-      // timer.pause();
-      // timer.update = ingame;
+        document.getElementById('paused').innerText = "CLICK TO PLAY";
     }
     timer.count = 1;
     if (document.pointerLockElement === canvas) {
-      document.getElementById('paused').innerText = "GAME PAUSED";
-      timer.update = ingame;
-      player.running = true;
-      // timer.start();
+        document.getElementById('paused').innerText = "GAME PAUSED";
+        console.log('GO !');
+        timer.count = 0;
+        timer.pause();
+        timer.update = roundStart;
+        timer.start();
     }
   };
 
@@ -115,37 +184,29 @@ export default function loops(game, mode) {
  * @type {fonction qui définit timer.update}
  */
   const victory = function victory(dt) {
-    let lvlNumber = bricks.lvlNumber;
-    if (!timer.ingame && timer.count === 0) {
+    if (timer.count === 0) {
       player.running = false;
       console.log('YOU WIN !!!');
+      timer.count += dt;
       timer.update = victory;
       timer.start();
     }
     timer.count += dt;
-    
-    if (timer.count > 3 && !timer.ingame) {
-      timer.pause();
-      timer.ingame = true;
-      loadLevel(bricks.lvlNumber + 1).then(lvl => {
-        bricks.level = lvl;
-        bricks.lvlNumber = lvlNumber + 1;
-        
-        player.reset(balls);
-        bonus.dead = true;
-        enemies.reset();
-        
-        timer.update = ingame;
-        timer.start();
-      });
+    // new
+    if (timer.count > 0.5) {
+        timer.pause();
+        timer.ingame = true;
+        loadLevel(bricks.lvlNumber + 1).then(lvl => {
+            bricks.level = lvl;
+            bricks.lvlNumber += 1;
+            timer.update = roundStart;
+            timer.start();
+        });
     }
-    
     draw([], context, timer, dt);
   };
 
 //
-//
-player.reset(balls);
 timer.update = start;
 timer.start();
 }
