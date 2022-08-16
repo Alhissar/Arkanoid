@@ -24,28 +24,14 @@ export default class Brick extends Entity {
   }
 
   draw(canvas, dt) {
-    // this.acc = (!this.acc) ? dt : this.acc + dt;
-    const context = canvas.getContext('2d');
+    this.animToDraw = this.anims[this.id];
+    this.spriteToDraw = this.sprites;
 
-    if (this.dying) {
-      if (this.acc * 25 > this.dyingAnims[this.id].length) {
-        this.dead = true;
-        this.dying = false;
-        return;
-      }
-      this.animToDraw = this.dyingAnims[this.id];
-      this.spriteToDraw = this.dyingSprites;
-      offset.x = this.explOffset.x;
-      offset.y = this.explOffset.y;
-    } else {
-      this.animToDraw = this.anims[this.id];
-      this.spriteToDraw = this.sprites;
-    }
     // codage en dur du framerate de l'anim (1/25 ou acc*25)
     // calcule le no de d'image pour l'animation du sprite
     this.frameNB = Math.floor((0 * 25) % this.animToDraw.length);
     const sprite = this.spriteToDraw.tiles.get(`${this.id + this.frameNB}`);
-    context.drawImage(sprite, this.pos.x, this.pos.y);
+    canvas.getContext('2d').drawImage(sprite, this.pos.x, this.pos.y);
 
   }
   

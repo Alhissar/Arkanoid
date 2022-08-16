@@ -1,24 +1,30 @@
 <html lang="fr">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Arkanoid</title>
-  <link rel="stylesheet" href="arkanoid.css">
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:700" rel="stylesheet">
-  <script type="module" src="/js3/main.js"></script>
-  <style>
-    
-  </style>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Arkanoid</title>
+        <link rel="stylesheet" href="arkanoid.css">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:700" rel="stylesheet">
+        <script type="module" src="/js3/main.js"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap');
+        </style>
+    </head>
 
-<body>
-  <canvas id="screen" width=800 height=820></canvas>
-  <div id="score">0</div>
-  <div id="recap">
-    <p id="paused">LOADING</p>
-  </div>
-</body>
+    <body>
+        <canvas id="screen" width=800 height=790></canvas>
+        <canvas id="bg" width=580 height=720></canvas>
+        <div id="score">0</div>
+        <div id="in">
+            <img id="arkanoid" src="img/arkanoid.png" alt="ARKANOID">
+            <p id="level">LEVEL 1</p>
+            <p>GET READY</p>
+        </div>
+        <div id="recap">
+            <p id="paused">LOADING</p>
+        </div>
+    </body>
 
 </html>

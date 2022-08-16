@@ -27,16 +27,18 @@ export default class Balls {
     });
   }
 
-  fireOff(color = 'ball0') {
+  fireOff() {
     this.all.forEach((ball, index) => {
       ball.onFire = false;
-      ball.id = color;
+      ball.trail.length = 0;
+      ball.id = ball.idBeforeFire;
     });
   }
 
   fireOn() {
     this.all.forEach((ball, index) => {
       ball.onFire = true;
+      if (ball.id !== 'onfire') ball.idBeforeFire = ball.id;
       ball.id = 'onfire';
     });
   }
@@ -55,8 +57,6 @@ export default class Balls {
   }
 
   multi() {
-    let ballAlive = null;
-    let ballAliveIndex = 0;
     // si les billes sont stuck, on les ranime
     this.run();
 
@@ -66,31 +66,20 @@ export default class Balls {
     // on initialise la pos et vel des nouvelles billes
     const newBalls = [];
     this.all.forEach((ball, index) => {
-      for (let b = 0; b < 2; ++b) {
-        const newball = new Ball(this.tiles, 'ball0');
-        newball.pos.x = ball.pos.x;
-        newball.pos.y = ball.pos.y;
-        newball.stuck = false;
-        newBalls.push(newball);
+        for (let b = 0; b < 2; ++b) {
+            const rand = Math.floor(Math.random() * 3);
+            const newball = new Ball(this.tiles, `ball${rand}`);
+            newball.pos.x = ball.pos.x;
+            newball.pos.y = ball.pos.y;
+            newball.vel.x = ball.vel.x;
+            newball.vel.y = ball.vel.y;
+            newball.randomAngle();
+            newball.dead = false;
+            newball.stuck = false;
+            newBalls.push(newball);
       }
     });
     this.all.push(...newBalls);
-    // on stocke la derniere bille en vie
-    this.all.forEach( (ball, index) => {
-      if (!ball.dead) {
-        ball.id = 'ball2';
-        ballAlive = ball;
-        ballAliveIndex = index;
-      } else {
-        ball.pos.x = ballAlive.pos.x;
-        ball.pos.y = ballAlive.pos.y;
-        ball.vel.x = ballAlive.vel.x;
-        ball.vel.y = ballAlive.vel.y;
-        // nouvelle methode
-        ball.randomAngle();
-        ball.dead = false;
-      }
-    });  
     this.fireOff();
     this.run();
   }

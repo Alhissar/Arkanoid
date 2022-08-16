@@ -1,6 +1,7 @@
 body {
   background-color: #1e1b23;
   font-family: "Ubuntu Mono", monospace;
+  
   display: flex;
   position: relative;
   max-width: 800px;
@@ -26,21 +27,45 @@ body {
   max-width: 580px;
   width: 75vw;
   display: block;
-  background-color: rgba(255,255,255,0.15);
   box-sizing: border-box;
   opacity: 1;
   visibility: visible;
   animation: pulsing 1.5s ease-in-out infinite;
   cursor: pointer;
 }
+#bg {
+    position: absolute;
+    margin: 70px 108px;
+    opacity: 0;
+}
 
-canvas {
+#in {
+    position: absolute;
+    transform: translate(216px, 450px);
+    font-family: 'Kdam Thmor Pro', sans-serif;
+    color: white;
+    text-align: center;
+    font-size: 28px;
+    opacity: 0;
+}
+#arkanoid {
+    position: relative;
+    margin-bottom: -15px;
+}
+#in p {
+    margin: auto 0;
+}
+
+#screen {
   position: absolute;
   margin: 0;
   width: 100%;
+  z-index: 1;
 }
 #recap {
   margin: auto;
+  z-index: 10;
+
 }
 #score {
   color: #fff;

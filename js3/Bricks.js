@@ -15,6 +15,7 @@ function reverseX(collided, entity) {
 export default class Bricks {
   constructor(tiles, level) {
     this.lvlNumber = 1;
+    this.levelJSON = JSON.stringify(level);
     this.level = level;
     this.brick = new Brick(tiles);
     this.score = 0;
@@ -71,6 +72,10 @@ export default class Bricks {
       col: Math.floor(pos.x / this.brick.size.x),
       row: Math.floor(pos.y / this.brick.size.y)
     };
+  }
+
+  resetLevels() {
+    this.level = JSON.parse(this.levelJSON);
   }
 
   state(grid) {
@@ -139,6 +144,8 @@ export default class Bricks {
       // si bullet, on change le son
       if (entity.name === 'bullet') {
         collision.sound = 'fire1';
+        if (brickId == "G") collision.sound = 'ballG';
+        if (brickId == "S") collision.sound = 'ballS';
         entity.dead = true;
       }
 

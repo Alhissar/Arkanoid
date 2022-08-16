@@ -1,31 +1,22 @@
 export default class Score {
   constructor() {
-    this.game = 0;
-    this.level = 0;
-    this.player = 0;
+    this.bonus = 0;
+    this.bricks = 0;
+    this.enemies = 0;
+    this.all = ['bonus', 'bricks', 'enemies'];
   }
 
-  get total() {
-    return this.ennemies + this.player;
-  }
-
-  add(scorable) {
-    this.score += scorable.score;
-  }
-
-  draw(scorables) {
+  draw(scorables = this.all) {
     const location = document.getElementById('score');
     let currentScore = 0;
-    scorables.forEach(scorable => {
-      currentScore += scorable.score;
-    });
+    scorables.forEach(scorable => { currentScore += this[scorable] });
     if (currentScore === this.level) return;
-    this.level = currentScore;
-    location.innerText = this.level;
+    // this.level = currentScore;
+    location.innerText = currentScore;
   }
 
-  newLevel() {
-    this.ennemies = 0;
+  reset() {
+    this.all.forEach(scorable => { this[scorable] = 0 });
     this.player = 0;
   }
 }

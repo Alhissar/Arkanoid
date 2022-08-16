@@ -10,7 +10,7 @@ export default class Bonus extends Entity{
     this.vel = new Vel();
     this.sprites = new SpriteSheet(tiles, 0, 220, this.size.x, this.size.y);
     this.states = [
-      ['life', 0, 0], ['extended', 0, 1], ['short', 0, 2], 
+      ['life', 0, 0], ['extended', 0, 1], ['short', 8, 8], 
       ['sticky', 0, 3], ['laser', 0, 4], ['multi', 0, 5],
       ['neutron', 8, 5], ['slow', 0, 8]
     ];

@@ -7,6 +7,7 @@ export default class Entity {
     this.fps = 25;
     this.dead = false;
     this.dying = false;
+    this.appear = false;
   }
 
   get left() {
@@ -59,28 +60,33 @@ export default class Entity {
 
   draw(canvas, dt) {
     if (this.dead || !this.id) {
-      this.acc = 0;
-      return;
+        this.acc = 0;
+        return;
     }
     this.acc = (!this.acc) ? dt : this.acc + dt;
     const context = canvas.getContext('2d');
     const offset = {x: 0, y: 0};
 
-    if (this.dying) {
-      if (this.acc * this.fps > this.dyingAnims[this.id].length) {
-        this.dead = true;
-        this.dying = false;
-        return;
-      }
-      this.animToDraw = this.dyingAnims[this.id];
-      this.spriteToDraw = this.dyingSprites;
-      offset.x = this.explOffset.x;
-      offset.y = this.explOffset.y;
+    if (this.appear && this.acc * this.fps > this.appearAnims[this.id].length) this.appear = false;
+    if (this.appear) {
+        this.animToDraw = this.appearAnims[this.id];
+        this.spriteToDraw = this.appearSprites;
     } else {
-      this.animToDraw = this.anims[this.id];
-      this.spriteToDraw = this.sprites;
+        this.animToDraw = this.anims[this.id];
+        this.spriteToDraw = this.sprites;
     }
-    
+    if (this.dying) {
+        if (this.acc * this.fps > this.dyingAnims[this.id].length) {
+            this.dead = true;
+            this.dying = false;
+            return;
+        }
+        this.animToDraw = this.dyingAnims[this.id];
+        this.spriteToDraw = this.dyingSprites;
+        offset.x = this.explOffset.x;
+        offset.y = this.explOffset.y;
+    }
+
     // framerate de l'anim (1/this.fps ou acc*fps)
     // calcule le no de d'image pour l'animation du sprite
     this.frameNB = Math.floor((this.acc * this.fps) % this.animToDraw.length);

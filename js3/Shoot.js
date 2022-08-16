@@ -11,7 +11,7 @@ export default class Shoot {
     for (let i = 0; i < 2; ++i) {
       const fire = new Ball(this.tiles, 'bullet');
       fire.pos.y = 600;
-      fire.vel.y = -600;
+      fire.vel.y = -800;
       fire.name = 'bullet';
       fire.stuck = false;
       fire.dead = false;
@@ -38,11 +38,7 @@ export default class Shoot {
   }
 
   update(dt) {
-    const newAll = [];
-    this.all.forEach(fire => {
-      if (!fire.dead) newAll.push(fire);
-    });
-    this.all = newAll;
+    this.all = this.all.filter(fire => !fire.dead || fire.trail.length !== 0);
 
     this.all.forEach( fire => {
       fire.update(dt);

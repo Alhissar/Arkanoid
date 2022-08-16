@@ -5,8 +5,8 @@ export function createAnim(frames, states, addX, addY) {
     for (let i = 0; i < frames; i++) {
       animFrameObj[name].push([x + addX * i, y + addY * i]);
     }
- });
- return animFrameObj;
+  });
+  return animFrameObj;
 }
 
 export class SpriteSheet {
@@ -32,9 +32,4 @@ export class SpriteSheet {
     this.tiles.set(name, sprite);
   }
 
-  draw(name, context, x, y) {
-    const tile = this.tiles.get(name);
-    if (!tile) return;
-    context.drawImage(tile, x, y);
-  }
 }

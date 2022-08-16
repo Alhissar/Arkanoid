@@ -27,6 +27,7 @@ export default function loadSounds(audio, audioContext) {
       ['../sounds/multi.wav', 'multi'],
       ['../sounds/gameover.wav', 'gameover'],
       ['../sounds/crash.wav', 'crash'],
+      ['../sounds/startLevel.wav', 'level'],
     ];
   
   loadingData.forEach( ([url, id]) => {

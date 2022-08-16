@@ -19,7 +19,8 @@ export default class Player extends Entity {
     this.anims = createAnim(4, this.states, 0, 1);
     // this.anims = {default: [[0,0], [0,1], [0,2], ...};
     this.createSprites(this.sprites, this.states, this.anims);
-    
+
+    // Sprites pour dying
     this.dyingSprites = new SpriteSheet(tiles, 0, 468, 156, 52);
     this.dyingStates = [
       ['default60', 0, 1], ['default80', 0, 0], ['default120', 1, 1],
@@ -28,6 +29,15 @@ export default class Player extends Entity {
     ];
     this.dyingAnims = createAnim(4, this.dyingStates, 0, 1);
     this.createSprites(this.dyingSprites, this.dyingStates, this.dyingAnims);
+
+    // Sprites pour apparition (début round)
+    this.appearSprites = new SpriteSheet(tiles, 0, 889, 80, 22);
+    this.appearStates = [
+      ['default80', 0, 0],
+    ];
+    this.appearAnims = createAnim(15, this.appearStates, 0, 1);
+    this.createSprites(this.appearSprites, this.appearStates, this.appearAnims);
+
     this.explOffset = { x: 18, y: 15 };
 
 
@@ -39,6 +49,7 @@ export default class Player extends Entity {
     this.lifes = 3;
     this.name = 'player';
     this.pos.set(240, 610);
+    this.appear = false;
     // this.score = 0;
   }
 
@@ -200,10 +211,13 @@ export default class Player extends Entity {
    * @param {Balls} balls 
    */
   reset(balls){
+    this.pos.set(240, 610);
     this.size.x = 80;
     this.sticky = false;
     this.dying = false;
     this.dead = false;
+    this.appear = true;
+    this.acc = 0;
     this.state = 'default';
     this.id = this.getId();
     this.running = false;
@@ -218,7 +232,7 @@ export default class Player extends Entity {
    * @param {Event} x delta X
    */
   update(balls, x) {
-    
+    if (this.dead || this.dying) return;
     this.pos.x += Math.floor(x);
     if (this.pos.x < 0) this.pos.x = 0;
     if (this.right > 572) this.right = 572;
